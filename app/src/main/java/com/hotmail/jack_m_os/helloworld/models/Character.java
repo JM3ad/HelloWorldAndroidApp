@@ -41,6 +41,8 @@ public class Character {
         return Strength;
     }
 
+    public boolean isDead() { return Health <= 0; }
+
     public void updateStrength(int value) {
         Strength = Math.max(0, Strength + value);
     }

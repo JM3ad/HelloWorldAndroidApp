@@ -28,8 +28,8 @@ public class MainActivity extends Activity {
             public void onClick(View v){
                 Intent i = new Intent(getApplicationContext(), GameActivity.class);
                 i.putExtra("name", characterName.getText().toString());
+                setContentView(R.layout.loading_screen);
                 startActivity(i);
-                setContentView(R.layout.activity_game);
             }
         });
     }

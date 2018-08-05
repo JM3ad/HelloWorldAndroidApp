@@ -1,11 +1,13 @@
 package com.hotmail.jack_m_os.helloworld.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.hotmail.jack_m_os.helloworld.MainActivity;
 import com.hotmail.jack_m_os.helloworld.R;
 import com.hotmail.jack_m_os.helloworld.models.Character;
 import com.hotmail.jack_m_os.helloworld.models.Stage;
@@ -64,6 +66,12 @@ public class GameActivity extends AppCompatActivity {
         continueButton = (Button) findViewById(R.id.next_stage);
         continueButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                if (character.isDead()){
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    setContentView(R.layout.loading_screen);
+                    startActivity(i);
+                    return;
+                }
                 stage = story.GetCurrentStage();
                 refreshText();
                 story.progressStage();
