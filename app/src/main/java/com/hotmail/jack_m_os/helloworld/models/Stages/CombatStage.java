@@ -37,7 +37,7 @@ public class CombatStage implements Stage {
     public void performOptionOne(){
         character.fight(enemy);
         //Add money?
-        resultText = "Appropriate result";
+        resultText = "You killed the enemy!";
     }
 
     public void performOptionTwo(){
