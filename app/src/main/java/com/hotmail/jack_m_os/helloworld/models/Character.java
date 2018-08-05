@@ -4,92 +4,110 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Character {
-    private int Money;
-    private int Health;
-    private int MaxHealth;
-    private int Strength;
-    private String Name;
-    private Map<String, Item> Inventory;
-
+    private int money;
+    private int health;
+    private int maxHealth;
+    private int strength;
+    private int experience;
+    private int level;
+    private String name;
+    private Map<String, Item> inventory;
 
     public Character(String name) {
-        Money = 0;
-        MaxHealth = 10;
-        Health = MaxHealth;
-        Strength = 1;
-        this.Name = name;
-        Inventory = new HashMap();
+        money = 0;
+        maxHealth = 10;
+        health = maxHealth;
+        strength = 1;
+        this.name = name;
+        experience = 0;
+        level = 1;
+        inventory = new HashMap();
     }
 
     public int getMoney() {
-        return Money;
+        return money;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public int getHealth() {
-        return Health;
+        return health;
     }
 
     public int getMaxHealth() {
-        return MaxHealth;
+        return maxHealth;
     }
 
     public int getStrength() {
-        return Strength;
+        return strength;
     }
 
-    public boolean isDead() { return Health <= 0; }
+    public boolean isDead() { return health <= 0; }
 
     public void updateStrength(int value) {
-        Strength = Math.max(0, Strength + value);
+        strength = Math.max(0, strength + value);
     }
 
     public void updateHealth(int value) {
         if (value > 0) {
-            Health = Math.min(MaxHealth, Health + value);
+            health = Math.min(maxHealth, health + value);
             return;
         }
-        Health = Math.max(0, Health + value);
+        health = Math.max(0, health + value);
     }
 
-    public boolean HasItem(Item item) {
-        return Inventory.containsKey(item.Name);
+    public void updateExperience(int increase){
+        experience += increase;
+        while(experience > level * 10){
+            experience -= level*10;
+            levelUp();
+        }
     }
 
-    public boolean AttemptToUseItem(Item item) {
-        if (HasItem(item)) {
-            Inventory.remove(item.Name);
+    private void levelUp(){
+        level++;
+        maxHealth +=2;
+        updateHealth(2);
+        strength +=1;
+    }
+
+    public boolean hasItem(Item item) {
+        return inventory.containsKey(item.name);
+    }
+
+    public boolean attemptToUseItem(Item item) {
+        if (hasItem(item)) {
+            inventory.remove(item.name);
             return true;
         }
         return false;
     }
 
-    public void AddMoney(int value) {
-        Money += value;
+    public void addMoney(int value) {
+        money += value;
     }
 
-    public boolean AttemptToPurchase(Item item, int cost) {
-        if (Money < cost) {
+    public boolean attemptToPurchase(Item item, int cost) {
+        if (money < cost) {
             return false;
         }
-        PurchaseItem(item, cost);
+        purchaseItem(item, cost);
         return true;
     }
 
-    private void PurchaseItem(Item item, int cost) {
-        Money -= cost;
-        Inventory.put(item.Name, item);
+    private void purchaseItem(Item item, int cost) {
+        money -= cost;
+        inventory.put(item.name, item);
     }
 
     public boolean fight(Enemy enemy){
         while(enemy.getHealth() > 0){
-            enemy.damage(Strength);
+            enemy.damage(strength);
             updateHealth(-enemy.getStrength());
         }
-        if (Health > 0){
+        if (health > 0){
             return true;
         }
         return false;

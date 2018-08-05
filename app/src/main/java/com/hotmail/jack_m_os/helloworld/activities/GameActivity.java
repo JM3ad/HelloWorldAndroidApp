@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.hotmail.jack_m_os.helloworld.MainActivity;
 import com.hotmail.jack_m_os.helloworld.R;
 import com.hotmail.jack_m_os.helloworld.models.Character;
@@ -15,6 +14,7 @@ import com.hotmail.jack_m_os.helloworld.models.Story;
 
 public class GameActivity extends AppCompatActivity {
 
+    //region Properties
     private Character character;
     private TextView storyText;
     private TextView healthText;
@@ -24,64 +24,82 @@ public class GameActivity extends AppCompatActivity {
     private Button continueButton;
     private Story story;
     private Stage stage;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        String charName = getIntent().getStringExtra("name");
-        character = new Character(charName);
-        story = new Story(character);
-        setButtons();
-        storyText = (TextView) findViewById(R.id.story);
-        moneyText = (TextView) findViewById(R.id.money);
-        healthText = (TextView) findViewById(R.id.hp);
-        stage = story.GetCurrentStage();
+        initialiseProperties();
+        setButtonClickEvents();
         refreshText();
     }
 
-    private void setButtons(){
+    private void initialiseProperties(){
+        String charName = getIntent().getStringExtra("name");
+        character = new Character(charName);
+        story = new Story(character);
+        storyText = (TextView) findViewById(R.id.story);
+        storyText.setText(String.format("Welcome to your adventure %s", charName));
+        moneyText = (TextView) findViewById(R.id.money);
+        healthText = (TextView) findViewById(R.id.hp);
         optionOne = (Button) findViewById(R.id.option_1);
+        optionTwo = (Button) findViewById(R.id.option_2);
+        continueButton = (Button) findViewById(R.id.next_stage);
+        stage = story.getCurrentStage();
+    }
+
+    private void setButtonClickEvents(){
         optionOne.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 stage.performOptionOne();
-                optionOne.setVisibility(View.INVISIBLE);
-                optionTwo.setVisibility(View.INVISIBLE);
-                continueButton.setVisibility(View.VISIBLE);
-                refreshText();
-                displayCompletionText();
+                optionSelected();
             }
         });
-        optionTwo = (Button) findViewById(R.id.option_2);
         optionTwo.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 stage.performOptionTwo();
-                optionOne.setVisibility(View.INVISIBLE);
-                optionTwo.setVisibility(View.INVISIBLE);
-                continueButton.setVisibility(View.VISIBLE);
-                refreshText();
-                displayCompletionText();
+                optionSelected();
             }
         });
-        continueButton = (Button) findViewById(R.id.next_stage);
         continueButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (character.isDead()){
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                    setContentView(R.layout.loading_screen);
-                    startActivity(i);
+                    returnToMainScreen();
                     return;
                 }
-                stage = story.GetCurrentStage();
-                refreshText();
-                story.progressStage();
-                storyText.setText(stage.getStageText());
-                optionOne.setVisibility(View.VISIBLE);
-                optionTwo.setVisibility(View.VISIBLE);
-                continueButton.setVisibility(View.INVISIBLE);
-                continueButton.setText("Continue");
+                continueSelected();
             }
         });
+    }
+
+    private void continueSelected(){
+        showOptionButtons(true);
+        stage = story.getCurrentStage();
+        refreshText();
+        story.progressStage();
+        storyText.setText(stage.getStageText());
+        continueButton.setText("Continue");
+    }
+
+    private void returnToMainScreen(){
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        setContentView(R.layout.loading_screen);
+        startActivity(i);
+    }
+
+    private void optionSelected(){
+        showOptionButtons(false);
+        refreshText();
+        displayCompletionText();
+    }
+
+    private void showOptionButtons(boolean showOptions){
+        int optionVisibility = showOptions ? View.VISIBLE : View.INVISIBLE;
+        int continueVisibility = showOptions ? View.INVISIBLE : View.VISIBLE;
+        optionOne.setVisibility(optionVisibility);
+        optionTwo.setVisibility(optionVisibility);
+        continueButton.setVisibility(continueVisibility);
     }
 
     private void displayCompletionText(){

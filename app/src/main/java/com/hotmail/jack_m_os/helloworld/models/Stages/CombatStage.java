@@ -40,7 +40,7 @@ public class CombatStage implements Stage {
             resultText = "You have died!";
             return;
         }
-        character.AddMoney(enemy.getLoot());
+        character.addMoney(enemy.getLoot());
         resultText = "You killed the enemy!";
     }
 

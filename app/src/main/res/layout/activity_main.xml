@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.hotmail.jack_m_os.helloworld.MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/edit_character_name"
+        android:text="What is your name, adventurer?"
+        android:textSize="30dp"
+        android:id="@+id/welcome_text"
+        android:gravity="center"
+        android:layout_marginBottom="25dp"/>
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_character_name"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:text="Start"
         android:id="@+id/start_game" />
 

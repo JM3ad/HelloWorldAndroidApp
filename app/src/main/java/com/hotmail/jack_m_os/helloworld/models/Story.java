@@ -4,20 +4,20 @@ import com.hotmail.jack_m_os.helloworld.helpers.StageFactory;
 
 public class Story {
     public int stageCount;
-    public Character Character;
+    public Character character;
     private Stage stage;
 
     public Story(Character character){
-        Character = character;
-        stage = StageFactory.getNextStage(Character);
+        this.character = character;
+        stage = StageFactory.getNextStage(this.character);
     }
 
-    public Stage GetCurrentStage(){
+    public Stage getCurrentStage(){
         return stage;
     }
 
     public void progressStage() {
-        stage = StageFactory.getNextStage(Character);
+        stage = StageFactory.getNextStage(character);
         stageCount++;
     }
 }
