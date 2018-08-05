@@ -36,7 +36,11 @@ public class CombatStage implements Stage {
 
     public void performOptionOne(){
         character.fight(enemy);
-        //Add money?
+        if (character.getHealth() <= 0){
+            resultText = "You have died!";
+            return;
+        }
+        character.AddMoney(enemy.getLoot());
         resultText = "You killed the enemy!";
     }
 
