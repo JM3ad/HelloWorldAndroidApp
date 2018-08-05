@@ -1,8 +1,8 @@
 package com.hotmail.jack_m_os.helloworld.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +12,7 @@ import com.hotmail.jack_m_os.helloworld.models.Character;
 import com.hotmail.jack_m_os.helloworld.models.Stage;
 import com.hotmail.jack_m_os.helloworld.models.Story;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends Activity {
 
     //region Properties
     private Character character;

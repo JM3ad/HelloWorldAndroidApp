@@ -12,7 +12,7 @@ public class Enemy {
         this.name = name;
         this.strength = strength;
         this.health = health;
-        this.loot = new Random().nextInt(strength+1);
+        this.loot = Math.max(new Random().nextInt(strength * 3 + 1), 1);
     }
 
     public String getName() {

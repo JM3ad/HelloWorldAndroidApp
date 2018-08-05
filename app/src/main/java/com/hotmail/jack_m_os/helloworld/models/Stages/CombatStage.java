@@ -1,8 +1,11 @@
 package com.hotmail.jack_m_os.helloworld.models.Stages;
 
+import com.hotmail.jack_m_os.helloworld.helpers.FightHelper;
 import com.hotmail.jack_m_os.helloworld.models.Enemy;
 import com.hotmail.jack_m_os.helloworld.models.Stage;
 import com.hotmail.jack_m_os.helloworld.models.Character;
+
+import java.util.Random;
 
 public class CombatStage implements Stage {
     private Character character;
@@ -35,18 +38,29 @@ public class CombatStage implements Stage {
     }
 
     public void performOptionOne(){
-        character.fight(enemy);
-        if (character.getHealth() <= 0){
-            resultText = "You have died!";
+        FightHelper.fight(character, enemy);
+        if (character.isDead()){
+            resultText = "You are dead!";
             return;
         }
         character.addMoney(enemy.getLoot());
+        character.updateExperience(enemy.getStrength() * 3);
         resultText = "You killed the enemy!";
     }
 
     public void performOptionTwo(){
-        character.updateHealth(1);
-        resultText = "You coward";
+        if (fleesSuccessfully()){
+            resultText = "Your fleet feet carry you out safely";
+            return;
+        }
+        resultText = "You flee, though not fast enough to avoid a parting blow";
+        character.updateHealth(-enemy.getStrength());
+        if (character.isDead()){
+            resultText = "You are dead!";
+        }
     }
 
+    private boolean fleesSuccessfully(){
+        return new Random().nextInt(3) > 0;
+    }
 }

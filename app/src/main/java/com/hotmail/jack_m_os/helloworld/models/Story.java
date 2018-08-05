@@ -9,7 +9,7 @@ public class Story {
 
     public Story(Character character){
         this.character = character;
-        stage = StageFactory.getNextStage(this.character);
+        stage = StageFactory.getNextStage(this.character, stageCount);
     }
 
     public Stage getCurrentStage(){
@@ -17,7 +17,7 @@ public class Story {
     }
 
     public void progressStage() {
-        stage = StageFactory.getNextStage(character);
         stageCount++;
+        stage = StageFactory.getNextStage(character, stageCount);
     }
 }

@@ -74,12 +74,13 @@ public class Character {
     }
 
     public boolean hasItem(Item item) {
-        return inventory.containsKey(item.name);
+        return inventory.containsKey(item.getName());
     }
 
     public boolean attemptToUseItem(Item item) {
         if (hasItem(item)) {
-            inventory.remove(item.name);
+            inventory.remove(item.getName());
+            item.useItem(this);
             return true;
         }
         return false;
@@ -97,20 +98,32 @@ public class Character {
         return true;
     }
 
-    private void purchaseItem(Item item, int cost) {
-        money -= cost;
-        inventory.put(item.name, item);
-    }
-
-    public boolean fight(Enemy enemy){
-        while(enemy.getHealth() > 0){
-            enemy.damage(strength);
-            updateHealth(-enemy.getStrength());
-        }
-        if (health > 0){
+    public boolean attemptToSpend(int cost){
+        if (money >= cost){
+            money -= cost;
             return true;
         }
         return false;
+    }
+
+    public void restoreHealth(){
+        if (!isDead()){
+            health = maxHealth;
+        }
+    }
+
+    private void purchaseItem(Item item, int cost) {
+        money -= cost;
+        addItem(item);
+    }
+
+    private void addItem(Item item){
+        inventory.put(item.getName(), item);
+        item.applyImmediateEffect(this);
+    }
+
+    public void damage(int strength){
+        updateHealth(-strength);
     }
 
 }
