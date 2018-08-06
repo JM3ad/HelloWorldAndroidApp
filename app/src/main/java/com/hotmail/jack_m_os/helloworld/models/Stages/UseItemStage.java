@@ -37,6 +37,7 @@ public class UseItemStage implements Stage {
     public void performOptionOne(){
         if (character.attemptToUseItem(item)){
             resultText = item.getUseText();
+            return;
         }
         resultText = "You don't own that item!";
     }

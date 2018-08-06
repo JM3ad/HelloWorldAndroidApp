@@ -15,8 +15,8 @@ public class FightHelper {
 
     public static Enemy generateEnemy(int day){
         Random random = new Random();
-        int health = Math.max(1, random.nextInt(day / 4 + 1));
-        int strength = Math.max(1, random.nextInt(day / 5 + 1));
+        int health = Math.max(1, random.nextInt(day / 5 + 1));
+        int strength = Math.max(1, random.nextInt(day / 6 + 1));
         String name = NameFactory.generateMonsterName();
         return new Enemy(name, strength, health);
     }
