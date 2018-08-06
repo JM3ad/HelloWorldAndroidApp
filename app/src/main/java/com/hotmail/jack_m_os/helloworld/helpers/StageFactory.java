@@ -34,7 +34,7 @@ public class StageFactory {
 
     private static ShopStage getShopStage(Character character){
         Item item = ItemHelper.getItem();
-        int price = new Random().nextInt(10)+1;
+        int price = new Random().nextInt(5)+1;
         return new ShopStage(character, item, price);
     }
 

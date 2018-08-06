@@ -112,6 +112,13 @@ public class Character {
         }
     }
 
+    public void increaseMaxHealth(int value){
+        if (!isDead()){
+            maxHealth += value;
+            health += value;
+        }
+    }
+
     private void purchaseItem(Item item, int cost) {
         money -= cost;
         addItem(item);

@@ -41,10 +41,20 @@ public class ItemHelper {
                     null
             ),
             new Item(
+                    "Large shield",
+                    (character) -> {character.increaseMaxHealth(5);},
+                    null,
+                    null
+
+            ),
+            new Item(
                     "Strategist magazine",
                     (character) -> {character.updateExperience(25);},
                     null,
                     null
+            ),
+            new Item(
+                    "Box of old condoms"
             )
     };
 

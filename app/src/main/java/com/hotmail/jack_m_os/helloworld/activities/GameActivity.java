@@ -19,6 +19,7 @@ public class GameActivity extends Activity {
     private TextView storyText;
     private TextView healthText;
     private TextView moneyText;
+    private TextView dayText;
     private Button optionOne;
     private Button optionTwo;
     private Button continueButton;
@@ -46,6 +47,7 @@ public class GameActivity extends Activity {
         optionOne = (Button) findViewById(R.id.option_1);
         optionTwo = (Button) findViewById(R.id.option_2);
         continueButton = (Button) findViewById(R.id.next_stage);
+        dayText = (TextView) findViewById(R.id.day_display);
         stage = story.getCurrentStage();
     }
 
@@ -111,6 +113,7 @@ public class GameActivity extends Activity {
         optionTwo.setText(stage.getOptionTwoText());
         moneyText.setText(String.format("%d GP",character.getMoney()));
         healthText.setText(String.format("%d /%d HP",character.getHealth(), character.getMaxHealth()));
+        dayText.setText(String.format("Day %d", story.stageCount));
     }
 
 }
